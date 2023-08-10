@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import NewsItem from './NewsItem'
 import PropTypes from 'prop-types'
 import Spinner from './Spinner'
-
+import InfiniteScroll from "react-infinite-scroll-component";
+import BackToTop from "react-back-to-top-button";
+import scrollImage from './back-to-top-icon-png-8.jpg'
 function News(props) {
 
     const [articles, setArticles] = useState([])
@@ -28,21 +30,47 @@ function News(props) {
         document.title = `${props.category.charAt(0).toUpperCase() + props.category.slice(1)} - News Webby`;
         updateNews();
     }, [])
+
+    const fetchMoreData = async () => {
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
+        setPage(page + 1)
+        let data = await fetch(url);
+        let parsedData = await data.json()
+        setArticles(articles.concat(parsedData.articles))
+        setTotalResults(parsedData.totalResults)
+    };
+
     return (
         <>
             <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>News Webby - Top {props.category.charAt(0).toUpperCase() + props.category.slice(1)} Headlines</h1>
-            {loading && <Spinner/>}
-            <div className="container">
+            {loading && <Spinner />}
+            <InfiniteScroll
+                dataLength={articles.length}
+                next={fetchMoreData}
+                hasMore={articles.length !== totalResults}
+                loader={<Spinner />}
+            >
+                <div className="container">
 
-                <div className="row">
-                    {articles.map((element) => {
-                        return <div className="col-md-4" key={element.url}>
-                            <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-                        </div>
-                    })}
+                    <div className="row">
+                        {articles.map((element) => {
+                            return <div className="col-md-4" key={element.url}>
+                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                            </div>
+                        })}
+
+                    </div>
+                    <BackToTop
+                        showOnScrollUp
+                        showAt={100}
+                        speed={1500}
+                        easing="easeInOutQuint"
+                    >
+                        <img src={scrollImage} height={120} width={110}/>
+                    </BackToTop>
                 </div>
+            </InfiniteScroll>
 
-            </div>
         </>
     )
 }
