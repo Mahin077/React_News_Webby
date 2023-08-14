@@ -22,7 +22,6 @@ function News(props) {
         props.setLoadingProgress(80);
         setArticles(parsedData.articles)
         setTotalResults(parsedData.totalResults)
-        console.log(url);
         setLoading(false)
         props.setLoadingProgress(100);
     }
@@ -30,7 +29,7 @@ function News(props) {
     useEffect(() => {
         document.title = `${props.category.charAt(0).toUpperCase() + props.category.slice(1)} - News Webby`;
         updateNews();
-    }, [])
+    }, [props.country])
 
     const fetchMoreData = async () => {
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
