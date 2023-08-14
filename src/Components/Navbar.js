@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Navbar() {
+function Navbar(props) {
     return (
         <div>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <nav className={`navbar fixed-top navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">News Webby</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,10 @@ function Navbar() {
                             <li className="nav-item"><a className="nav-link" href="/sports"><strong>Sports</strong></a></li>
                             <li className="nav-item"><a className="nav-link" href="/technology"><strong>Technology</strong></a></li>
                         </ul>
-
+                        <div className={`form-check form-switch text-${props.mode==='light'?'black':'white'}`}>
+                        <input className="form-check-input" onClick={props.toggleMode} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{cursor:'pointer'}}/>
+                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Enable Dark mode</label>
+                    </div>
                     </div>
                 </div>
             </nav>

@@ -22,6 +22,7 @@ function News(props) {
         props.setLoadingProgress(80);
         setArticles(parsedData.articles)
         setTotalResults(parsedData.totalResults)
+        console.log(url);
         setLoading(false)
         props.setLoadingProgress(100);
     }
@@ -42,8 +43,9 @@ function News(props) {
 
     return (
         <>
-            <h1 className="text-center" style={{ margin: '35px 0px', marginTop: '90px' }}>News Webby - Top {props.category.charAt(0).toUpperCase() + props.category.slice(1)} Headlines</h1>
+            <h1 className={`text-center text-${props.mode==='light'?'black':'white'}`} style={{ margin: '35px 0px', marginTop: '90px' }}>News Webby - Top {props.category.charAt(0).toUpperCase() + props.category.slice(1)} Headlines</h1>
             {loading && <Spinner />}
+            
             <InfiniteScroll
                 dataLength={articles.length}
                 next={fetchMoreData}
@@ -54,8 +56,8 @@ function News(props) {
 
                     <div className="row">
                         {articles.map((element) => {
-                            return <div className="col-md-4" key={element.url}>
-                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                            return <div className="col-md-4 my-4" key={element.url}>
+                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : "Click on read more to see the full news"} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} mode={props.mode} />
                             </div>
                         })}
 
