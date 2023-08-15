@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Navbar from './Components/Navbar';
 import News from './Components/News';
@@ -6,9 +5,11 @@ import React,{useState} from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar'
 function App() {
-  const pageSize = 9;
+
+  const pageSize = 9;  //9 articles will be load
   const apiKey ="005e86f524924fa7836c731cfec3e7cb";
-  const [loadingProgress, setLoadingProgress] = useState(0)
+
+  const [loadingProgress, setLoadingProgress] = useState(0)  //loading bar below the navbar
   const [mode,setMode] = useState('light');    // useState for dark mode
   
   const toggleMode = ()=>{            // to enable or disable dark mode
@@ -22,22 +23,16 @@ function App() {
     }
   }
 
-  const [country,setCountry] = useState("us");
-console.log(country)
+  const [country,setCountry] = useState("us"); //useState for changing the country
 
-const countrySelect=(data)=>{
+const countrySelect=(data)=>{   //func for changing the country which is passed to the navbar
   setCountry(data)
-  console.log("this is changed"+data)
 }
   return (
     <>
     <Router>
     <Navbar mode={mode} toggleMode={toggleMode} country={countrySelect}/>
-    <LoadingBar
-        height={3}
-        color='#f11946'
-        progress={loadingProgress} 
-      />
+    <LoadingBar height={3} color='#f11946' progress={loadingProgress} />
     <Routes>
           <Route exact path="/" element={<News setLoadingProgress={setLoadingProgress} apiKey={apiKey} key="general" pageSize={pageSize} country={country} category="general" mode={mode}/>}></Route> 
           <Route exact path="/business" element={<News setLoadingProgress={setLoadingProgress} apiKey={apiKey} key="business" pageSize={pageSize} country={country} category="business" mode={mode}/>}></Route> 

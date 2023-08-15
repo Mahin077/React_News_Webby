@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 function Navbar(props) {
-    const dropDownClick=(e)=>{
-        
-        props.country(e.target.id)
+
+    const dropDownClick=(e)=>{        //changing the country
+      props.country(e.target.id)
     }
     return (
         <div>
@@ -26,11 +26,11 @@ function Navbar(props) {
                             <li className="nav-item"><Link className="nav-link" to="/sports"><strong>Sports</strong></Link ></li>
                             <li className="nav-item"><Link className="nav-link" to="/technology"><strong>Technology</strong></Link ></li>
                         </ul>
-                        <div className="navbar-nav ms-auto">
+                        <div className="navbar-nav ms-auto">   
                         <div className="collapse navbar-collapse mx-2" id="navbarNavDarkDropdown">
                             <ul className="navbar-nav">
                                 <li className="nav-item dropdown">
-                                    <button className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button className={`btn btn-${props.mode==='light'?'light':'dark'} dropdown-toggle`} data-bs-toggle="dropdown" aria-expanded="false">
                                         Country
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-dark">

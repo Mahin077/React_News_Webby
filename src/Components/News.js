@@ -7,12 +7,12 @@ import BackToTop from "react-back-to-top-button";
 import scrollImage from './back-to-top-icon-png-8.jpg'
 function News(props) {
 
-    const [articles, setArticles] = useState([])
-    const [page, setPage] = useState(1)
-    const [loading, setLoading] = useState(true)
-    const [totalResults, setTotalResults] = useState(0)
+    const [articles, setArticles] = useState([])  //to load the articles
+    const [page, setPage] = useState(1)    //page number
+    const [loading, setLoading] = useState(true)   //to load the Spinner class
+    const [totalResults, setTotalResults] = useState(0)  //to know how much articles are there in the api
 
-    const updateNews = async () => {
+    const updateNews = async () => {       //func for fetching the news from the api
         props.setLoadingProgress(10);
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
         setLoading(true)
@@ -31,7 +31,7 @@ function News(props) {
         updateNews();
     }, [props.country])
 
-    const fetchMoreData = async () => {
+    const fetchMoreData = async () => {       //to fetch more data while scrolling down
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
         setPage(page + 1)
         let data = await fetch(url);
